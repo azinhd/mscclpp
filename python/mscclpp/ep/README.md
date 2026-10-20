@@ -567,6 +567,9 @@ dispatch_out.weights    # [world_size * max_tokens_per_rank, K]
 
 Tokens, top-k IDs, and weights are sent directly into runtime-owned registered
 final receive buffers and exposed as zero-copy Torch tensors.
+Valid `topk_ids` are destination-rank-local expert IDs in
+`[0, num_local_experts)`, so consumers can route them without another
+localization pass.
 Unused rows in every source-rank block use `invalid_token_expert_id` and zero
 weights. Rank-major dispatch supports BF16 and FP8 E4M3. FP8 requires a static
 scalar multiplier configured as
